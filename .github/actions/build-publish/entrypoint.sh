@@ -23,7 +23,7 @@ export DOCKER_BUILDKIT=1
 
 # check if we should pull existing images to help speed up the build
 if [ "${INPUT_PULL}" == "true" ]; then
-	sh -c "docker pull nxtlvlsoftware/pmmp-phpstan:'$TAG'"
+	sh -c "docker pull paroxity/pmmp-phpstan:'$TAG'"
 fi
 
 # build the pmmp phpstan image
