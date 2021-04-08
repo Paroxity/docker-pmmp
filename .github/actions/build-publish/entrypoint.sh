@@ -30,4 +30,4 @@ fi
 sh -c "docker build --cache-from paroxity/pmmp-phpstan:'$TAG' -t paroxity/pmmp-phpstan:'$TAG' --build-arg TAG='$TAG' --build-arg BUILDKIT_INLINE_CACHE=1 ."
 
 # publish the builds to docker hub
-sh -c docker push paroxity/pmmp-phpstan:'$TAG'"
+sh -c "docker push paroxity/pmmp-phpstan:'$TAG'"
