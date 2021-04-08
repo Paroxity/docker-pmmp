@@ -27,7 +27,7 @@ if [ "${INPUT_PULL}" == "true" ]; then
 fi
 
 # build the pmmp phpstan image
-sh -c "cd phpstan && docker build --cache-from paroxity/pmmp-phpstan:'$TAG' -t paroxity/pmmp-phpstan:'$TAG' --build-arg TAG='$TAG' --build-arg BUILDKIT_INLINE_CACHE=1 ."
+sh -c "docker build --cache-from paroxity/pmmp-phpstan:'$TAG' -t paroxity/pmmp-phpstan:'$TAG' --build-arg TAG='$TAG' --build-arg BUILDKIT_INLINE_CACHE=1 ."
 
 # publish the builds to docker hub
 sh -c docker push paroxity/pmmp-phpstan:'$TAG'"
