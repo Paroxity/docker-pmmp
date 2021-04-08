@@ -1,5 +1,5 @@
 FROM docker:stable
-MAINTAINER NxtLvL Software Solutions <contact@nxtlvlsoftware.net>
+MAINTAINER paroxity <admin@paroxity.net>
 
 ADD entrypoint.sh /entrypoint.sh
 

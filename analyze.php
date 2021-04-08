@@ -47,7 +47,7 @@ if(is_file("plugin.yml")) {
 		echo "Attempting to download dependency $dep from Poggit...\n";
 		$code = pclose(popen("wget -O /deps/$dep.phar https://poggit.pmmp.io/get/$dep", "r"));
 		if($code !== 0) {
-			echo "Warning: Failed to downloading dependency $dep\n";
+			echo "Warning: Failed to download dependency $dep\n";
 			// still continue executing
 		}
 	}
