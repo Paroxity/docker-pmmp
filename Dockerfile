@@ -8,7 +8,7 @@ RUN mv composer.phar /usr/bin/composer
 RUN wget -qO /usr/bin/phpstan https://github.com/phpstan/phpstan/releases/download/0.12.82/phpstan.phar
 RUN chmod o+x /usr/bin/phpstan
 ADD analyze.php /usr/bin/analyze
-RUN chmod 755 /user/bin/analyze
+RUN chmod 755 /usr/bin/analyze
 ADD phpstan.neon /pocketmine/phpstan.neon
 ADD pocketmine.phpstan.neon /pocketmine/pocketmine.phpstan.neon
 RUN mkdir /deps
