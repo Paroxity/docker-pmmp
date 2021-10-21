@@ -13,7 +13,7 @@ jobs:
     steps:
       - run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          docker pull pmmp/pocketmine-mp:${{ github.event.client_payload.existing }} && docker pull paroxity/pmmp-phpstan:${{ github.event.client_payload.existing }}
-          docker tag pmmp/pocketmine-mp:${{ github.event.client_payload.existing }} pmmp/pocketmine-mp:${{ github.event.client_payload.tag }}
+          docker pull paroxity/pocketmine-mp:${{ github.event.client_payload.existing }} && docker pull paroxity/pmmp-phpstan:${{ github.event.client_payload.existing }}
+          docker tag paroxity/pocketmine-mp:${{ github.event.client_payload.existing }} paroxity/pocketmine-mp:${{ github.event.client_payload.tag }}
           docker tag paroxity/pmmp-phpstan:${{ github.event.client_payload.existing }} paroxity/pmmp-phpstan:${{ github.event.client_payload.tag }}
-          docker push pmmp/pocketmine-mp:${{ github.event.client_payload.tag }} && docker push paroxity/pmmp-phpstan:${{ github.event.client_payload.tag }}
+          docker push paroxity/pocketmine-mp:${{ github.event.client_payload.tag }} && docker push paroxity/pmmp-phpstan:${{ github.event.client_payload.tag }}
