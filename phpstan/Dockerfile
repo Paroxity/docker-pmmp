@@ -1,6 +1,6 @@
 ARG IMAGE
 ARG TAG
-FROM ${IMAGE:-pmmp/pocketmine-mp}:${TAG}
+FROM ${IMAGE:-paroxity/pmmp}:${TAG}
 
 USER root
 RUN wget -qO - https://getcomposer.org/installer | php
