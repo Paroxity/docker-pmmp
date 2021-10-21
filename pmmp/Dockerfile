@@ -17,10 +17,10 @@ RUN curl -L https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
 
 RUN composer install --classmap-authoritative --no-dev --prefer-source
-RUN php build/preprocessor/PreProcessor.php --path=src --multisize
+RUN php /build/preprocessor/PreProcessor.php --path=src --multisize
 RUN php $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 
-RUN php build/server-phar.php --git $(git rev-parse HEAD)
+RUN php /build/server-phar.php --git $(git rev-parse HEAD)
 # Just to make sure DevTools didn't false-positive-exit
 RUN test -f /build/PocketMine-MP.phar
 
