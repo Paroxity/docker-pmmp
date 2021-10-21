@@ -10,7 +10,7 @@ WORKDIR /build
 RUN git clone https://github.com/pmmp/PocketMine-MP.git -b ${PMMP_TAG} --recursive .
 WORKDIR /build/build/php
 RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} -f -g
-RUN ln -s /build/build/php/bin/php8/bin/php /usr/bin/php
+RUN ln -s /build/build/php/bin/php7/bin/php /usr/bin/php
 
 WORKDIR /build
 RUN curl -L https://getcomposer.org/installer | php
@@ -32,7 +32,7 @@ RUN groupadd -g 1000 pocketmine
 RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
 
 WORKDIR /pocketmine
-COPY --from=0 /build/build/php/bin/php8 /usr/php
+COPY --from=0 /build/build/php/bin/php7 /usr/php
 RUN grep -q '^extension_dir' /usr/php/bin/php.ini && \
 	sed -ibak "s{^extension_dir=.*{extension_dir=\"$(find /usr/php -name *debug-zts*)\"{" /usr/php/bin/php.ini || echo "extension_dir=\"$(find /usr/php -name *debug-zts*)\"" >> /usr/php/bin/php.ini
 RUN ln -s /usr/php/bin/php /usr/bin/php
