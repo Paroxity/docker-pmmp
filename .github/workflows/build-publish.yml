@@ -3,13 +3,13 @@ name: Build & Publish
 on:
   workflow_dispatch:
     inputs:
-      target_red:
-        description: "The target branch to run workflow for."
-        default: "master"
-        required: false
       tag:
         description: "The target pmmp tag to build an image for."
         required: true
+      target_ref:
+        description: "The target branch to run workflow for."
+        default: "master"
+        required: false
       pull:
         description: "Should we pull existing images before the build to speed up the build?"
         default: "true"
