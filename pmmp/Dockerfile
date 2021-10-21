@@ -19,7 +19,7 @@ RUN mv composer.phar /usr/bin/composer
 RUN composer install --classmap-authoritative --no-dev --prefer-source
 RUN php $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 
-RUN php composer make-server
+RUN composer make-server
 # Just to make sure DevTools didn't false-positive-exit
 RUN test -f /build/PocketMine-MP.phar
 
