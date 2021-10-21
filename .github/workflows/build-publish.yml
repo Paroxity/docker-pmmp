@@ -16,21 +16,23 @@ on:
         required: false
 
 jobs:
-  build:
-
+  build_and_publish:
     runs-on: ubuntu-latest
-
-    # only run if the event action is build & publish
-    if: github.event.action == 'build-publish'
-
     steps:
-    - uses: actions/checkout@v2
-      with:
-        # allow targeting a build against any branch
-        ref: ${{ github.event.inputs.target_ref }}
-    - uses: ./.github/actions/build-publish
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        tag: ${{ github.event.inputs.tag }}
-        pull: ${{ github.event.inputs.pull }}
+      - name: Workflow Inputs
+        run: |
+          echo "tag: ${{ github.event.inputs.tag }}"
+          echo "target_ref: ${{ github.event.inputs.target_ref }}"
+          echo "pull: ${{ github.event.inputs.pull }}"
+      - name: Checkout Repo
+        uses: actions/checkout@v2.3.2
+        with:
+          # allow targeting a build against any branch
+          ref: ${{ github.event.inputs.target_ref }}
+      - name: Build & Publish
+        uses: ./.github/actions/build-publish
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tag: ${{ github.event.inputs.tag }}
+          pull: ${{ github.event.inputs.pull }}
