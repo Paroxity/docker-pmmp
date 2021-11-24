@@ -3,41 +3,42 @@ FROM ubuntu:18.04
 ARG PMMP_TAG
 RUN test ! -z ${PMMP_TAG} || (echo "Missing build-arg PMMP_TAG" && false)
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl ca-certificates make autoconf automake m4 bison g++ git cmake pkg-config libtool-bin re2c
+RUN apt-get update && apt-get install --no-install-recommends -y curl ca-certificates build-essential m4 gzip bzip2 bison git cmake autoconf automake pkg-config libtool libtool-bin re2c
 
-RUN mkdir /pmmp
-WORKDIR /pmmp
+RUN mkdir /build
+WORKDIR /build
 RUN git clone https://github.com/pmmp/PocketMine-MP.git -b ${PMMP_TAG} --recursive .
-WORKDIR /pmmp/build/php
+WORKDIR /build/build/php
 RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} -f -g
-RUN ln -s /pmmp/build/php/bin/php7/bin/php /usr/bin/php
+RUN ln -s /build/build/php/bin/php7/bin/php /usr/bin/php
 
-WORKDIR /pmmp
+WORKDIR /build
 RUN curl -L https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
 
 RUN composer install --classmap-authoritative --no-dev --prefer-source
-
 # 3.0.0 $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 # 4.0.0 vendor/pocketmine/bedrock-data/.minify_json.php
 RUN php vendor/pocketmine/bedrock-data/.minify_json.php
 
 RUN composer make-server
+# Just to make sure DevTools didn't false-positive-exit
+RUN test -f /build/PocketMine-MP.phar
 
-FROM alpine:latest
-LABEL maintainer="paroxity <admin@paroxity.net>"
+FROM ubuntu:18.04
+LABEL maintainer="PMMP Team <team@pmmp.io>"
 
-RUN apk update && apk add --no-cache ca-certificates curl
+RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates wget
 
-RUN addgroup -g 1000 pocketmine
-RUN adduser -S -h /pocketmine -D -u 1000 -G pocketmine pocketmine
+RUN groupadd -g 1000 pocketmine
+RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
 
 WORKDIR /pocketmine
-COPY --from=0 /pmmp/build/php/bin/php7 /usr/php
+COPY --from=0 /build/build/php/bin/php7 /usr/php
 RUN grep -q '^extension_dir' /usr/php/bin/php.ini && \
 	sed -ibak "s{^extension_dir=.*{extension_dir=\"$(find /usr/php -name *debug-zts*)\"{" /usr/php/bin/php.ini || echo "extension_dir=\"$(find /usr/php -name *debug-zts*)\"" >> /usr/php/bin/php.ini
 RUN ln -s /usr/php/bin/php /usr/bin/php
-COPY --from=0 /pmmp/PocketMine-MP.phar PocketMine-MP.phar
+COPY --from=0 /build/PocketMine-MP.phar PocketMine-MP.phar
 ADD start.sh /usr/bin/start-pocketmine
 
 RUN mkdir /plugins /data
