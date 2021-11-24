@@ -24,7 +24,7 @@ RUN composer make-server
 FROM alpine:latest
 LABEL maintainer="PMMP Team <team@pmmp.io>"
 
-RUN apk add --no-cache ca-certificates
+RUN apk update && apk add --no-cache ca-certificates
 
 RUN addgroup -g 1000 pocketmine
 RUN adduser -S -h /pocketmine -D -u 1000 -G pocketmine pocketmine
