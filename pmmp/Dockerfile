@@ -1,9 +1,9 @@
 # Build stage for compilation. Build tools like g++ will not be copied into the final stage to reduce image size.
-FROM ubuntu:18.04
+FROM alpine:latest
 ARG PMMP_TAG
 RUN test ! -z ${PMMP_TAG} || (echo "Missing build-arg PMMP_TAG" && false)
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl ca-certificates build-essential m4 gzip bzip2 bison git cmake autoconf automake pkg-config libtool libtool-bin re2c
+RUN apk add --no-cache curl ca-certificates build-essential m4 gzip bzip2 bison git cmake autoconf automake pkg-config libtool libtool-bin re2c
 
 RUN mkdir /build
 WORKDIR /build
@@ -23,10 +23,10 @@ RUN composer make-server
 # Just to make sure DevTools didn't false-positive-exit
 RUN test -f /build/PocketMine-MP.phar
 
-FROM ubuntu:18.04
+FROM alpine:latest
 LABEL maintainer="PMMP Team <team@pmmp.io>"
 
-RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates wget
+RUN apk add --no-cache ca-certificates
 
 RUN groupadd -g 1000 pocketmine
 RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine

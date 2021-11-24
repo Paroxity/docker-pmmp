@@ -5,7 +5,7 @@ FROM ${IMAGE:-paroxity/pmmp}:${TAG}
 USER root
 RUN wget -qO - https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
-RUN wget -qO /usr/bin/phpstan https://github.com/phpstan/phpstan/releases/download/0.12.99/phpstan.phar
+RUN wget -qO /usr/bin/phpstan https://github.com/phpstan/phpstan/releases/download/1.2.0/phpstan.phar
 RUN chmod o+x /usr/bin/phpstan
 ADD analyze.php /usr/bin/analyze
 RUN chmod 755 /usr/bin/analyze
