@@ -28,8 +28,8 @@ LABEL maintainer="PMMP Team <team@pmmp.io>"
 
 RUN apk add --no-cache ca-certificates
 
-RUN groupadd -g 1000 pocketmine
-RUN useradd -r -d /pocketmine -p "" -u 1000 -m -g pocketmine pocketmine
+RUN addgroup -g 1000 pocketmine
+RUN adduser -S -h /pocketmine -D -u 1000 -G pocketmine pocketmine
 
 WORKDIR /pocketmine
 COPY --from=0 /build/build/php/bin/php7 /usr/php
