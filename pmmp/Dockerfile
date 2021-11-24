@@ -3,7 +3,7 @@ FROM alpine:latest
 ARG PMMP_TAG
 RUN test ! -z ${PMMP_TAG} || (echo "Missing build-arg PMMP_TAG" && false)
 
-RUN apk add --no-cache curl ca-certificates build-base m4 gzip bzip2 bison git cmake autoconf automake libtool re2c pkgconf
+RUN apk update && apk add --no-cache curl ca-certificates make autoconf automake m4 gzip bzip2 bison g++ git cmake pkgconf re2c
 
 RUN mkdir /build
 WORKDIR /build
