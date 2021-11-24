@@ -27,7 +27,7 @@ RUN composer make-server
 FROM alpine:latest
 LABEL maintainer="paroxity <admin@paroxity.net>"
 
-RUN apk update && apk add --no-cache ca-certificates wget
+RUN apk update && apk add --no-cache ca-certificates curl
 
 RUN addgroup -g 1000 pocketmine
 RUN adduser -S -h /pocketmine -D -u 1000 -G pocketmine pocketmine
