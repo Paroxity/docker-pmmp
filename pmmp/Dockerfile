@@ -1,18 +1,18 @@
 # Build stage for compilation. Build tools like g++ will not be copied into the final stage to reduce image size.
-FROM alpine:latest
+FROM ubuntu:18.04
 ARG PMMP_TAG
 RUN test ! -z ${PMMP_TAG} || (echo "Missing build-arg PMMP_TAG" && false)
 
-RUN apk update && apk add --no-cache curl ca-certificates make autoconf automake m4 gzip bzip2 bison g++ git cmake pkgconf re2c
+RUN apt-get update && apt-get install --no-install-recommends -y curl ca-certificates make autoconf automake m4 bison g++ git cmake pkg-config libtool-bin re2c
 
-RUN mkdir /build
-WORKDIR /build
+RUN mkdir /pmmp
+WORKDIR /pmmp
 RUN git clone https://github.com/pmmp/PocketMine-MP.git -b ${PMMP_TAG} --recursive .
-WORKDIR /build/build/php
+WORKDIR /pmmp/build/php
 RUN ./compile.sh -t linux64 -j ${THREADS:-$(grep -E ^processor /proc/cpuinfo | wc -l)} -f -g
-RUN ln -s /build/build/php/bin/php7/bin/php /usr/bin/php
+RUN ln -s /pmmp/build/php/bin/php7/bin/php /usr/bin/php
 
-WORKDIR /build
+WORKDIR /pmmp
 RUN curl -L https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
 
@@ -20,8 +20,6 @@ RUN composer install --classmap-authoritative --no-dev --prefer-source
 RUN php $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 
 RUN composer make-server
-# Just to make sure DevTools didn't false-positive-exit
-RUN test -f /build/PocketMine-MP.phar
 
 FROM alpine:latest
 LABEL maintainer="PMMP Team <team@pmmp.io>"
