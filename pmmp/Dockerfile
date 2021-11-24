@@ -25,9 +25,9 @@ RUN php vendor/pocketmine/bedrock-data/.minify_json.php
 RUN composer make-server
 
 FROM alpine:latest
-LABEL maintainer="PMMP Team <team@pmmp.io>"
+LABEL maintainer="paroxity <admin@paroxity.net>"
 
-RUN apk update && apk add --no-cache ca-certificates
+RUN apk update && apk add --no-cache ca-certificates wget
 
 RUN addgroup -g 1000 pocketmine
 RUN adduser -S -h /pocketmine -D -u 1000 -G pocketmine pocketmine
