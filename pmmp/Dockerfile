@@ -17,8 +17,9 @@ RUN curl -L https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
 
 RUN composer install --classmap-authoritative --no-dev --prefer-source
-
-RUN php vendor/pocketmine/bedrock-data/.minify_json.php
+# 3.0.0 $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
+# 4.0.0 vendor/pocketmine/bedrock-data/.minify_json.php
+RUN php $(test -d resources || echo -n src/pocketmine/)resources/vanilla/.minify_json.php
 
 RUN composer make-server
 # Just to make sure DevTools didn't false-positive-exit
