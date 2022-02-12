@@ -17,7 +17,8 @@ RUN chown 1000:1000 /pocketmine/phpstan.neon /pocketmine/pocketmine.phpstan.neon
 
 # install custom rules
 RUN mkdir -p /pocketmine/phpstan/rules
-RUN wget -qO /pocketmine/phpstan/rules/DisallowEnumComparisonRule.php https://raw.githubusercontent.com/pmmp/PocketMine-MP/4014f9a4f2426b358288ce96386b8d73db760512/tests/phpstan/rules/DisallowEnumComparisonRule.php
+RUN wget -qO /pocketmine/phpstan/rules/DisallowEnumComparisonRule.php https://raw.githubusercontent.com/pmmp/PocketMine-MP/6846f1e78a70393d5f2d2e9f3db5c4b574ddf50d/tests/phpstan/rules/DisallowEnumComparisonRule.php
+RUN wget -qO /pocketmine/phpstan/rules/UnsafeForeachArrayOfStringRule.php https://raw.githubusercontent.com/pmmp/PocketMine-MP/55c744cc006f290cdd4a71e82af3825f4328f43b/tests/phpstan/rules/UnsafeForeachArrayOfStringRule.php
 ADD config/pm4-enum.phpstan.neon /pocketmine/phpstan/rules/pm4-enums.phpstan.neon
 RUN chown 1000:1000 \
 	/pocketmine/phpstan/rules/DisallowEnumComparisonRule.php \
