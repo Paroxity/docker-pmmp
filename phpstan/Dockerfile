@@ -1,5 +1,6 @@
 ARG IMAGE
 ARG TAG
+#FROM ${IMAGE:-paroxity/pmmp}:${TAG}
 FROM ${IMAGE:-pmmp/pocketmine-mp}:${TAG}
 
 USER root
