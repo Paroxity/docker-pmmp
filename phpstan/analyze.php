@@ -31,26 +31,26 @@ if(is_file("plugin.yml")) {
 		exit(1);
 	}
 
-	$manifest = yaml_parse(file_get_contents("plugin.yml"));
-	$deps = [];
-	foreach(["depend", "softdepend", "loadbefore"] as $attr) {
-		if(isset($manifest[$attr])) {
-			array_push($deps, ...$manifest[$attr]);
-		}
-	}
+	// $manifest = yaml_parse(file_get_contents("plugin.yml"));
+	// $deps = [];
+	// foreach(["depend", "softdepend", "loadbefore"] as $attr) {
+	// 	if(isset($manifest[$attr])) {
+	// 		array_push($deps, ...$manifest[$attr]);
+	// 	}
+	// }
 
-	foreach($deps as $dep) {
-		if(empty($dep)) {
-			continue;
-		}
+	// foreach($deps as $dep) {
+	// 	if(empty($dep)) {
+	// 		continue;
+	// 	}
 
-		echo "Attempting to download dependency $dep from Poggit...\n";
-		$code = pclose(popen("wget -O /deps/$dep.phar https://poggit.pmmp.io/get/$dep", "r"));
-		if($code !== 0) {
-			echo "Warning: Failed to download dependency $dep\n";
-			// still continue executing
-		}
-	}
+	// 	echo "Attempting to download dependency $dep from Poggit...\n";
+	// 	$code = pclose(popen("wget -O /deps/$dep.phar https://poggit.pmmp.io/get/$dep", "r"));
+	// 	if($code !== 0) {
+	// 		echo "Warning: Failed to download dependency $dep\n";
+	// 		// still continue executing
+	// 	}
+	// }
 }
 
 if(is_file("composer.json")) {
